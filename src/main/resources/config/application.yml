@@ -1,0 +1,38 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: blank
+  liquibase:
+    change-log: classpath:/config/liquibase/master.xml
+    enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  #  datasource:
+  #    name: ~
+  #    url: "jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=TYPE;"
+  #    username: ~
+  #    password: ~
+  #    type: com.zaxxer.hikari.HikariDataSource
+  #    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+common:
+  cors:
+    allow-credentials: true
+    allowed-headers: "*"
+    allowed-methods: "GET, PUT, POST, DELETE, OPTIONS"
+    allowed-origin-patterns: "*"
+    exposed-headers: "Link, X-Total-Count"
+    max-age: 1800
+  httpBasicAuth:
+    login: kiabi
+    password: kiabi123
+  security:
+    jwt:
+      secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+      expiration-time: 3600000
