@@ -13,6 +13,7 @@ import com.lagab.blank.service.dto.LoginDto;
 import com.lagab.blank.service.dto.LoginResponse;
 import com.lagab.blank.service.dto.SignUpDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -32,7 +33,7 @@ public class AuthResource {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<LoginResponse> authenticate(@Valid @RequestBody LoginDto loginDto) {
         User authenticatedUser = authenticationService.authenticate(loginDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);

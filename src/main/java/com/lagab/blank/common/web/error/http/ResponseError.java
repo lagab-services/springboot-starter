@@ -2,7 +2,9 @@ package com.lagab.blank.common.web.error.http;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,8 +54,11 @@ public class ResponseError {
     private HttpStatus status = HttpStatus.OK;
 
     @Singular
-    @JsonProperty("error_description")
+    @JsonProperty("message")
     private List<String> errorDescriptions = new ArrayList<>();
+
+    @JsonProperty("details")
+    private Map<String, String> errorDescriptionMap = new HashMap<>();
 
     /**
      * Sets the main error message.
@@ -88,6 +93,16 @@ public class ResponseError {
      */
     public ResponseError errorDescription(String... errorDescription) {
         this.errorDescriptions.addAll(Arrays.asList(errorDescription));
+        return this;
+    }
+
+    public ResponseError errorDescriptions(List<String> errorDescription) {
+        this.errorDescriptions.addAll(errorDescription);
+        return this;
+    }
+
+    public ResponseError errorDescriptionsMap(Map<String, String> errorDescription) {
+        this.errorDescriptionMap.putAll(errorDescription);
         return this;
     }
 

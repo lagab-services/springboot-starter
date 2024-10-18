@@ -2,12 +2,17 @@ package com.lagab.blank.common.web.error.handler;
 
 import java.nio.file.AccessDeniedException;
 import java.security.SignatureException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.transaction.CannotCreateTransactionException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -37,6 +42,18 @@ public class GlobalExceptionHandler {
             return buildResponse(HttpStatus.FORBIDDEN, "The JWT signature is invalid.");
         } else if (throwable instanceof ExpiredJwtException) {
             return buildResponse(HttpStatus.FORBIDDEN, "The JWT token has expired.");
+        } else if (throwable instanceof MethodArgumentNotValidException ex) {
+            List<String> errorsMessage = ex.getBindingResult().getAllErrors()
+                                           .stream()
+                                           .map(DefaultMessageSourceResolvable::getCode)
+                                           .toList();
+            Map<String, String> errors = new HashMap<>();
+            ex.getBindingResult().getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage()));
+            if (!errors.isEmpty()) {
+                return buildResponse(HttpStatus.BAD_REQUEST, errors);
+            }
+            return buildResponse(HttpStatus.BAD_REQUEST, errorsMessage);
         } else {
             return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, throwable.getMessage());
         }
@@ -47,6 +64,24 @@ public class GlobalExceptionHandler {
                             .error(status.getReasonPhrase())
                             .status(status)
                             .errorDescription(errorDescription)
+                            .build()
+                            .toResponseEntity();
+    }
+
+    private ResponseEntity buildResponse(HttpStatus status, List<String> errorDescriptions) {
+        return ResponseError.builder()
+                            .error(status.getReasonPhrase())
+                            .status(status)
+                            .errorDescriptions(errorDescriptions)
+                            .build()
+                            .toResponseEntity();
+    }
+
+    private ResponseEntity buildResponse(HttpStatus status, Map<String, String> errorDescriptionMap) {
+        return ResponseError.builder()
+                            .error(status.getReasonPhrase())
+                            .status(status)
+                            .errorDescriptionMap(errorDescriptionMap)
                             .build()
                             .toResponseEntity();
     }
