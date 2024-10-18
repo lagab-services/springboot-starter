@@ -63,6 +63,7 @@ public class GlobalExceptionHandler {
         return ResponseError.builder()
                             .error(status.getReasonPhrase())
                             .status(status)
+                            .code(String.valueOf(status.value()))
                             .errorDescription(errorDescription)
                             .build()
                             .toResponseEntity();
@@ -72,6 +73,7 @@ public class GlobalExceptionHandler {
         return ResponseError.builder()
                             .error(status.getReasonPhrase())
                             .status(status)
+                            .code(String.valueOf(status.value()))
                             .errorDescriptions(errorDescriptions)
                             .build()
                             .toResponseEntity();
@@ -81,6 +83,7 @@ public class GlobalExceptionHandler {
         return ResponseError.builder()
                             .error(status.getReasonPhrase())
                             .status(status)
+                            .code(String.valueOf(status.value()))
                             .errorDescriptionMap(errorDescriptionMap)
                             .build()
                             .toResponseEntity();

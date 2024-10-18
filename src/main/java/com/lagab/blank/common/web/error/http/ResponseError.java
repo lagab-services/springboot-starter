@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ import lombok.Singular;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseError {
 
     @Builder.Default
@@ -52,6 +54,9 @@ public class ResponseError {
     @JsonIgnore
     @Builder.Default
     private HttpStatus status = HttpStatus.OK;
+
+    @Builder.Default
+    private String code = "";
 
     @Singular
     @JsonProperty("message")
@@ -69,6 +74,7 @@ public class ResponseError {
      */
     public ResponseError error(HttpStatus status, String errorMessage) {
         this.status = status;
+        this.code = String.valueOf(status.value());
         this.error = errorMessage;
         return this;
     }
@@ -81,6 +87,7 @@ public class ResponseError {
      */
     public ResponseError error(HttpStatus status) {
         this.status = status;
+        this.code = String.valueOf(status.value());
         this.error = status.getReasonPhrase();
         return this;
     }
