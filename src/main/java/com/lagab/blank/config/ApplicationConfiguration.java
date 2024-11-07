@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.lagab.blank.repository.UserRepository;
+import com.lagab.blank.security.repository.UserRepository;
 
 @Configuration
 public class ApplicationConfiguration {

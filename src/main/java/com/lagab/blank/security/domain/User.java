@@ -1,4 +1,4 @@
-package com.lagab.blank.domain;
+package com.lagab.blank.security.domain;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

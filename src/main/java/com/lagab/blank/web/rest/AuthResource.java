@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lagab.blank.common.service.JwtService;
-import com.lagab.blank.domain.User;
-import com.lagab.blank.service.AuthenticationService;
-import com.lagab.blank.service.dto.LoginDto;
-import com.lagab.blank.service.dto.LoginResponse;
-import com.lagab.blank.service.dto.SignUpDto;
+import com.lagab.blank.security.domain.User;
+import com.lagab.blank.security.dto.LoginDto;
+import com.lagab.blank.security.dto.LoginResponse;
+import com.lagab.blank.security.dto.SignUpDto;
+import com.lagab.blank.security.service.AuthenticationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthResource {
 
     private final JwtService jwtService;
@@ -26,7 +26,7 @@ public class AuthResource {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<User> register(@Valid @RequestBody SignUpDto signUpDto) {
         User registeredUser = authenticationService.signup(signUpDto);
 
         return ResponseEntity.ok(registeredUser);

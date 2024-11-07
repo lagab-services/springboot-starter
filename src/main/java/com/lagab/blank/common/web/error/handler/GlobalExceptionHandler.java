@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.lagab.blank.common.exception.BadRequestException;
+import com.lagab.blank.common.exception.NotFoundException;
 import com.lagab.blank.common.web.error.http.ResponseError;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -32,6 +34,10 @@ public class GlobalExceptionHandler {
             return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to acquire JDBC connection");
         } else if (throwable instanceof AccessDeniedException) {
             return buildResponse(HttpStatus.FORBIDDEN, "You are not authorized to access this resource.");
+        } else if (throwable instanceof NotFoundException) {
+            return buildResponse(HttpStatus.NOT_FOUND, throwable.getMessage());
+        } else if (throwable instanceof BadRequestException) {
+            return buildResponse(HttpStatus.BAD_REQUEST, throwable.getMessage());
         } else if (throwable instanceof BadCredentialsException) {
             return buildResponse(HttpStatus.UNAUTHORIZED, "The username or password is incorrect");
             //        } else if (throwable instanceof ResponseErrorException exception) {

@@ -1,14 +1,14 @@
-package com.lagab.blank.service;
+package com.lagab.blank.security.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.lagab.blank.domain.User;
-import com.lagab.blank.repository.UserRepository;
-import com.lagab.blank.service.dto.LoginDto;
-import com.lagab.blank.service.dto.SignUpDto;
+import com.lagab.blank.security.domain.User;
+import com.lagab.blank.security.dto.LoginDto;
+import com.lagab.blank.security.dto.SignUpDto;
+import com.lagab.blank.security.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,5 +43,8 @@ public class AuthenticationService {
     }
 
     //add refresh token
+
+    //TODO: add forgotPassword => creeate a resetpasswordToken available 1hour and send it by mail
+    //TODO: add resetPassword => check the resetpasswordToken is valid (text and date), if match we change the password and reset the token to null
 
 }
