@@ -21,6 +21,14 @@ spring:
   h2:
     console:
       enabled: true
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
 common:
   cors:
     allow-credentials: true
