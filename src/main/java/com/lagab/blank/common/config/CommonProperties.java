@@ -16,6 +16,8 @@ public class CommonProperties {
     @Getter
     public static class Security {
         private final Jwt jwt = new Jwt();
+        @Setter
+        private String apiKey;
 
         @Getter
         @Setter

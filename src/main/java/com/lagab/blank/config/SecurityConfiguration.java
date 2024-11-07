@@ -15,6 +15,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.lagab.blank.common.config.CommonProperties;
 import com.lagab.blank.common.web.JwtAuthenticationFilter;
+import com.lagab.blank.common.web.StaticAccessTokenFilter;
 import com.lagab.blank.common.web.error.handler.CustomAccessDeniedHandler;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class SecurityConfiguration {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final StaticAccessTokenFilter staticAccessTokenFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -48,7 +50,8 @@ public class SecurityConfiguration {
                             "/swagger-ui/**").permitAll()
                     .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(staticAccessTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(jwtAuthenticationFilter, StaticAccessTokenFilter.class);
 
         return http.build();
     }
