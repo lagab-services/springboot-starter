@@ -1,0 +1,52 @@
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: blank
+  liquibase:
+    change-log: classpath:/config/liquibase/master.xml
+    enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  #  datasource:
+  #    name: ~
+  #    url: "jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;NON_KEYWORDS=TYPE;"
+  #    username: ~
+  #    password: ~
+  #    type: com.zaxxer.hikari.HikariDataSource
+  #    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+common:
+  cors:
+    allow-credentials: true
+    allowed-headers: "*"
+    allowed-methods: "GET, PUT, POST, DELETE, OPTIONS"
+    allowed-origin-patterns: "*"
+    exposed-headers: "Link, X-Total-Count"
+    max-age: 1800
+  security:
+    jwt:
+      secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+      expiration-time: 3600000
+    apiKey: "56c94d31-679c-4865-987f-67cc1b322a76"
+  feign:
+    defaultConnectTimeout: 2000
+    defaultReadTimeout: 5000
+    defaultRetries: 0
+    maxIdleConnection: 20
+    connectionKeepAliveDuration: 10000
+server:
+  port: 10344
